@@ -97,9 +97,7 @@ where
     return data
 
 
-def insert_calc_amount_fiber(
-    product_id: str, amount_fiber: Decimal, amount_product: Decimal, tg_id: str
-):
+def insert_calc_amount_fiber(product_tuple: tuple):
     """Запрос на добавление записи о продукте"""
     query = """insert
     into product_acceptance(product_id, user_id, amount_product, calc_amount_fiber)
@@ -108,10 +106,5 @@ def insert_calc_amount_fiber(
     (select user_id from fiber_user where tg_id = %s),
     %s,
     %s);"""
-    params = (
-        product_id,
-        tg_id,
-        amount_product,
-        amount_fiber,
-    )
+    params = product_tuple
     execute_query(query, params, insert=True)
